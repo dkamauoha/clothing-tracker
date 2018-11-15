@@ -35,9 +35,74 @@ class Login extends Component {
         await console.log(this.state.user);
     }
 
-    emailSignIn = async () => {
+    signInWithEmail = async () => {
         let emailInfo = await auth.signInWithEmailAndPassword(this.state.email, this.state.password);
-        console.log(emailInfo);
+            let user =  emailInfo.user;
+            console.log(user);
+            await this.setState({
+                user: {
+                    first_name: '',
+                    last_name: '',
+                    email: user.email,
+                    profile_pic: user.photoURL,
+                    auth_id: user.uid
+                }
+            });
+            return this.state.user;
+    }
+
+    createUserWithEmail = async () => {
+        let newAccount = await auth.createUserWithEmailAndPassword(this.state.email, this.state.password);
+        let user = newAccount.user;
+        await this.setState({
+            user: {
+                first_name: '',
+                last_name: '',
+                email: user.email,
+                profile_pic: user.photoURL,
+                auth_id: user.uid
+            }
+        });
+        return this.state.user;
+    }
+
+    emailSignIn = () => {
+        // let user = await this.signInWithEmail();
+        // if (!user) {
+        //     return this.createUserWithEmail();
+        // }
+        auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(res => {
+                let user = res.user;
+                this.setState({
+                    user: {
+                        first_name: '',
+                        last_name: '',
+                        email: user.email,
+                        profile_pic: user.photoURL,
+                        auth_id: user.uid
+                    }
+                });
+            })
+            .catch(() => {
+                auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
+                    .then(res => {
+                        let user = res.user;
+                        this.setState({
+                            user: {
+                                first_name: '',
+                                last_name: '',
+                                email: user.email,
+                                profile_pic: user.photoURL,
+                                auth_id: user.uid
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            })
+        return this.state.user;
     }
 
     testMethod = () => {
@@ -45,7 +110,7 @@ class Login extends Component {
     }
 
     render() {
-        console.log(this.state);
+        console.log(this.state.user);
         return (
             <main className='login__display-container'>
                 <h2>Login</h2>
