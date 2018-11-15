@@ -8,4 +8,33 @@
     justify-content: center;
     color: white;
     border-radius: 5px;
-    box-shadow: 0px 0px 88px 19px rgba(0,0,0,0.62);}
+    box-shadow: 0px 0px 88px 19px rgba(0,0,0,0.62);
+    opacity: 0.9;
+}
+
+.landing__login-button {
+    margin-top: 20px;
+    background-color: white;
+    border: 0px solid black;
+    height: 30px;
+    width: 120px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.landing__features-container {
+    height: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.landing__feature-spacer {
+    height: 80%;
+    width: 5px;
+    margin: 0 20px;
+    background-color: #222;
+    border-radius: 3px;
+}

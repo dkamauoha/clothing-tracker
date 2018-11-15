@@ -1,15 +1,43 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import { auth, googleProvider } from '../../firebase';
+
+//Style
+import './Login.css';
+
 class Login extends Component {
     state = {
-
+        email: '',
+        password: '',
+        user: {}
     };
 
-    login = () => {
-        let { REACT_APP_DOMAIN, REACT_APP_CLIENT_ID } = process.env;
-        let url = `${window.location.origin}/auth/callback`;
-        window.location = `https://${REACT_APP_DOMAIN}/authorize?client_id=${REACT_APP_CLIENT_ID}&scope=openid%20email&redirect_uri=${url}&response_type=code`;
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    googleLogin = async () => {
+        let googleInfo = await auth.signInWithPopup(googleProvider);
+        let user = googleInfo.user;
+        let nameArr = user.displayName.split(' ');
+        await this.setState({
+            user: {
+                first_name: nameArr[0],
+                last_name: nameArr[1],
+                email: user.email,
+                profile_pic: user.photoURL,
+                auth_id: user.uid
+            }
+        })
+        await console.log(this.state.user);
+    }
+
+    emailSignIn = async () => {
+        let emailInfo = await auth.signInWithEmailAndPassword(this.state.email, this.state.password);
+        console.log(emailInfo);
     }
 
     testMethod = () => {
@@ -17,10 +45,28 @@ class Login extends Component {
     }
 
     render() {
+        console.log(this.state);
         return (
-            <main>
+            <main className='login__display-container'>
                 <h2>Login</h2>
-                <button onClick={this.login}>Test</button>
+                <div className='login__login-container'>
+                    <button onClick={this.googleLogin}>Test</button>
+                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                        <input 
+                            placeholder='Email'
+                            onChange={(event) => this.handleChange(event)}
+                            name='email'
+                        />
+                        <input 
+                            type='password' 
+                            placeholder='Password'
+                            onChange={(event) => this.handleChange(event)}
+                            name='password'
+                        />
+                        <button onClick={this.emailSignIn}>Sign In</button>
+                    </div>
+                </div>
+                
             </main>
         )
     }
