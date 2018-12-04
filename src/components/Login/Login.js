@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+//Routing
+import { withRouter } from 'react-router';
+
+//Firebase
 import { auth, googleProvider } from '../../firebase';
+
+//Reducer
+import { connect } from 'react-redux';
+import { updateUser } from '../../ducks/reducer';
 
 //Style
 import './Login.css';
+
+//Images
+import googleIcon from '../../images/google-icon.svg';
 
 class Login extends Component {
     state = {
@@ -33,6 +44,7 @@ class Login extends Component {
             }
         })
         await console.log(this.state.user);
+        await this.props.history.push('/dashboard');
     }
 
     signInWithEmail = async () => {
@@ -105,36 +117,43 @@ class Login extends Component {
         return this.state.user;
     }
 
-    testMethod = () => {
-        axios.get('/api/test').then(res => console.log(res.data));
-    }
-
     render() {
-        console.log(this.state.user);
         return (
             <main className='login__display-container'>
-                <h2>Login</h2>
                 <div className='login__login-container'>
-                    <button onClick={this.googleLogin}>Test</button>
-                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                    <div className='login__email-login'>
+                        <h3 className='login__email-login-header'>Sign In</h3>
                         <input 
+                            className='login__input'
                             placeholder='Email'
                             onChange={(event) => this.handleChange(event)}
                             name='email'
                         />
                         <input 
+                            className='login__input'
                             type='password' 
                             placeholder='Password'
                             onChange={(event) => this.handleChange(event)}
                             name='password'
                         />
-                        <button onClick={this.emailSignIn}>Sign In</button>
+                        <button
+                            className='login__email-login-button'
+                            onClick={this.emailSignIn}>Sign In</button>
                     </div>
                 </div>
+                <button 
+                    className='login__google-button'
+                    onClick={this.googleLogin}>
+                    <div className='login__google-icon-container'>
+                        <img className='login__google-icon'src={googleIcon} alt=''/>    
+                    </div>
+                    <div className='login__google-button-divider'></div>
+                    <div className='login__google-button-text'>Sign in with Google</div>
+                </button>
                 
             </main>
         )
     }
 }
 
-export default Login;
+export default withRouter(connect(null, {})(Login));

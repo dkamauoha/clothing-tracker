@@ -22,7 +22,7 @@ class Landing extends Component {
                 //   bgHeight='auto'
                 //   bgImageAlt=''  
                 >
-                    <div style={{height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <div style={{height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                         <h3 className='landing__title'>Welcome to Clothing Tracker</h3>
                         <Link to='/login'><button className='landing__login-button'>Sign Up / Log In</button></Link>
                     </div>

@@ -5,12 +5,14 @@ import { Switch, Route } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import Landing from './components/Landing/Landing';
+import AddItem from './components/AddItem/AddItem';
 
 const routes = (
     <Switch>
-        <Route exact path='/login' component={Login} />
+        <Route exact path='/' component={Landing}/>
+        <Route path='/login' component={Login} />
         <Route path='/dashboard' component={Dashboard}/>
-        <Route path='/' component={Landing}/>
+        <Route path='/additem' component={AddItem}/>
     </Switch>
 )
 
